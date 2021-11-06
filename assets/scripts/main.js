@@ -25,6 +25,8 @@ const router = new Router(function () {
    * This will only be two single lines
    * If you did this right, you should see just 1 recipe card rendered to the screen
    */
+  document.querySelector("section.section--recipe-cards").classList.add("shown");
+  document.querySelector("section.section--recipe-expand").classList.remove("shown");
 });
 
 window.addEventListener('DOMContentLoaded', init);
@@ -55,6 +57,16 @@ function initializeServiceWorker() {
    *  TODO - Part 2 Step 1
    *  Initialize the service worker set up in sw.js
    */
+   if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+    .then(function(registration) {
+      console.log('Registration successful, scope is:', registration.scope);
+    })
+    .catch(function(error) {
+      console.log('Service worker registration failed, error:', error);
+    });
+  }
+
 }
 
 /**
@@ -174,6 +186,12 @@ function bindEscKey() {
    * if the escape key is pressed, use your router to navigate() to the 'home'
    * page. This will let us go back to the home page from the detailed page.
    */
+
+   document.addEventListener("keydown",e =>{
+    if(e.code == 'Escape'){
+        router.navigate('home');
+    }
+  });
 }
 
 /**
@@ -195,4 +213,13 @@ function bindPopstate() {
    * so your navigate() function does not add your going back action to the history,
    * creating an infinite loop
    */
+
+   window.addEventListener('popstate',(e)=>{
+    if(e.state){
+        router.navigate(e.state['page'],true);
+    }
+    else{
+        router.navigate('home',true);
+    }
+  });
 }
