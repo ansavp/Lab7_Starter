@@ -100,7 +100,7 @@ async function fetchRecipes() {
  * appends them to the page
  */
 function createRecipeCards() {
-  for (let i = 0; i < Object.keys(recipeData).length; ++i) {
+  for (let i = 0; i < recipes.length; i++) {
     // Makes a new recipe card
     const recipeCard = document.createElement('recipe-card');
 
